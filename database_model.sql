@@ -18,6 +18,9 @@ CREATE TABLE `usuario` (
   `perfil` enum('adm','user') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `usuario` (`idUsuario`, `nome`, `login`, `senha`, `perfil`) VALUES
+(1, 'root', 'adm', 'e10adc3949ba59abbe56e057f20f883e', 'adm'),
+
 ALTER TABLE `cervejas`
   ADD PRIMARY KEY (`id`);
 
