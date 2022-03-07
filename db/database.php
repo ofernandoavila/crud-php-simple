@@ -3,10 +3,10 @@
 /**
  * Credenciais para acessar o banco de dados
  */
-$host = 'localhost';
-$user = 'root';
+$host = '';
+$user = '';
 $pass = '';
-$db = 'trabalhoTony';
+$db = '';
 
 /**
  * Conexão com o banco de dados estabelecida 
