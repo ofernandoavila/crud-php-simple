@@ -65,9 +65,30 @@ class Login {
                  * com a mensagem de erro e seu nome de usuário já 
                  * inserido no campo de 'usuário' do formulário
                  */
-                header('location: ' . URLROOT . '/index.php?error='. $erro . '&usuario=' . $login);
+                header('location: ' . URLROOT . '/index.php?status='. $erro . '&usuario=' . $login);
             }
         }
+    }
+
+    private function validacaoEmail($email) {
+        if($email == '') return false;
+        $result = mysqli_query($this->dbConnection, "select * from usuario where email = '".$email."'");
+        return mysqli_num_rows($result) == 0 ? true : false;
+    }
+
+    private function validacaoSenha($senha, $confirmar) {
+        if($senha == '' || $confirmar == '') {
+            return false;
+        } else {
+            if( $senha != $confirmar ) return false;
+            else return true;
+        }
+    }
+
+    private function validacaoUsuario($user) {
+        if($user == '') return false;
+        $result = mysqli_query($this->dbConnection, "select * from usuario where login = '".$user."'");
+        return mysqli_num_rows($result) == 0 ? true : false;
     }
 
     /**
@@ -90,4 +111,50 @@ class Login {
             header('location: ' . URLROOT);
         }
     }
+
+    public function signUp() {
+        if(isset($_POST['cadastrar'])) {
+            $data = array(
+                'nome' => $_POST['nome'],
+                'usuario' => $_POST['usuario'],
+                'email' => $_POST['email'],
+                'senha' => $_POST['senha'],
+                'confirmar' => $_POST['confirmar-senha']
+            );
+
+            $redirect = "location: " . URLROOT . '/index.php';
+            $error = '&status=';
+            $dataQuery = '&usuario=' . $data['usuario'] . '&nome=' . $data['nome'] . '&email=' . $data['email'];
+
+            if($this->validacaoSenha($data['senha'], $data['confirmar'])) {
+                if($this->validacaoEmail($data['email'])) {
+                    if($this->validacaoUsuario($data['usuario'])) {
+                        if(mysqli_query( $this->dbConnection, "insert into usuario (idUsuario, nome, email, login, senha, perfil) values (NULL, '" . $data['nome'] . "', '" . $data['email'] . "', '" . $data['usuario'] . "', '" . md5($data['senha']) . "', 'user')")) {
+                            $redirect .= '?&status=Conta criada com sucesso!'. $dataQuery;
+                            header($redirect);
+                        } else {
+                            $error .= 'Ocorreu um erro ao criar a conta';
+                            $redirect .= '?cadastro=true'. $error . $dataQuery;
+                            header($redirect);
+                        }
+                    } else {
+                        if($data['email'] == '') $error .= 'Insira um nome de usuário válido';
+                        else $error .= 'Este nome de usuário já existe';
+                        $redirect .= '?cadastro=true'. $error . $dataQuery;
+                        header($redirect);
+                    }
+                } else {
+                    if($data['email'] == '') $error .= 'Insira um email válido';
+                    else $error .= 'Este email já consta em nossa base de dados';
+                    $redirect .= '?cadastro=true'. $error . $dataQuery;
+                    header($redirect);
+                }
+            } else {
+                $error .= 'As senhas devem ser iguais';
+                $redirect .= '?cadastro=true'. $error . $dataQuery;
+                header($redirect);
+            }
+        }
+    }
 }
+

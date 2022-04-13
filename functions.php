@@ -11,7 +11,7 @@
  * 
  * ATENÇÃO: NÃO UTILIZAR BARRA DE ESPAÇO NO FINAL
  */
-define('URLROOT', 'INSIRA AQUI O URL DA APLICAÇÃO');
+define('URLROOT', 'http://localhost/crud-php-simple');
 
 /**
  * Inclusão de arquivos essenciais da aplicação

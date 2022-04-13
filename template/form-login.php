@@ -4,7 +4,8 @@
         <input type="text" name="usuario"class="form-control mb-3" placeholder="Usuario" value="<?= isset($_GET['usuario']) ? $_GET['usuario'] : ''; ?>">
         <input type="password" name="senha" class="form-control mb-3" placeholder="Senha" >
         <!-- Se houver erro na autenticação, irá mostrar o erro que ocorreu -->
-        <?= isset($_GET['error']) ? '<p>' . $_GET['error'] . '</p>': ''; ?>
+        <?= isset($_GET['status']) ? '<p style="color: white">' . $_GET['status'] . '</p>': ''; ?>
+        <a href="index.php?cadastro=true">Criar conta</a>
         <input type="submit" name="login" class="btn btn-lg btn-primary btn-block" value="Login">
     </form>
 </div>

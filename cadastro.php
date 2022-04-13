@@ -11,11 +11,7 @@ require_once 'header.php';
  * o usuário faça login no sistema
  */
 if(!isset($_SESSION['nome'])) {
-    if(isset($_GET['cadastro'])) {
-        require_once 'template/form-cadastro.php';
-    } else {
-        require_once 'template/form-login.php';
-    }
+    require_once 'template/form-cadastro.php';
 }
 /**
  * Inclui o rodapé na página
